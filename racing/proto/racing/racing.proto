@@ -8,9 +8,22 @@ import "google/protobuf/timestamp.proto";
 service Racing {
   // ListRaces will return a collection of all races.
   rpc ListRaces(ListRacesRequest) returns (ListRacesResponse) {}
+
+  // Race returns a single race by given ID.
+  rpc GetRace(GetRaceRequest) returns (GetRaceResponse) {}
 }
 
 /* Requests/Responses */
+
+// Request for ListRaces call.
+message GetRaceRequest {
+  int64 race = 1;
+}
+
+// Response to ListRaces call.
+message GetRaceResponse {
+  repeated Race race = 1;
+}
 
 message ListRacesRequest {
   ListRacesRequestFilter filter = 1;
@@ -24,6 +37,8 @@ message ListRacesResponse {
 // Filter for listing races.
 message ListRacesRequestFilter {
   repeated int64 meeting_ids = 1;
+  bool visible_only = 2;
+  string order_by = 3;
 }
 
 /* Resources */
@@ -42,5 +57,6 @@ message Race {
   bool visible = 5;
   // AdvertisedStartTime is the time the race is advertised to run.
   google.protobuf.Timestamp advertised_start_time = 6;
+  // AdvertisedStartTime after now is OPEN; otherwise it is CLOSED.
+  string status = 7;
 }
-

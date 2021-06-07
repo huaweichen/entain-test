@@ -18,6 +18,9 @@ type RacesRepo interface {
 
 	// List will return a list of races.
 	List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error)
+
+	// Get will return a single race record by given id.
+	Get(request *racing.GetRaceRequest) ([]*racing.Race, error)
 }
 
 type racesRepo struct {
@@ -40,6 +43,24 @@ func (r *racesRepo) Init() error {
 	})
 
 	return err
+}
+
+func (r *racesRepo) Get(request *racing.GetRaceRequest) ([]*racing.Race, error) {
+	var (
+		err   error
+		query string
+		args  []interface{}
+	)
+
+	query = getRaceQueries()[raceItem]
+	args = append(args, request.Race)
+
+	rows, err := r.db.Query(query, args...)
+	if err != nil {
+		return nil, err
+	}
+
+	return r.scanRaces(rows)
 }
 
 func (r *racesRepo) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error) {
@@ -79,8 +100,20 @@ func (r *racesRepo) applyFilter(query string, filter *racing.ListRacesRequestFil
 		}
 	}
 
+	if filter.VisibleOnly == true {
+		var (
+			visible int = 1
+		)
+		clauses = append(clauses, "visible = ?")
+		args = append(args, visible)
+	}
+
 	if len(clauses) != 0 {
 		query += " WHERE " + strings.Join(clauses, " AND ")
+	}
+
+	if len(filter.OrderBy) > 0 && (strings.ToLower(filter.OrderBy) == "desc" || strings.ToLower(filter.OrderBy) == "asc") {
+		query += " ORDER BY advertised_start_time " + filter.OrderBy
 	}
 
 	return query, args
@@ -95,7 +128,7 @@ func (m *racesRepo) scanRaces(
 		var race racing.Race
 		var advertisedStart time.Time
 
-		if err := rows.Scan(&race.Id, &race.MeetingId, &race.Name, &race.Number, &race.Visible, &advertisedStart); err != nil {
+		if err := rows.Scan(&race.Id, &race.MeetingId, &race.Name, &race.Number, &race.Visible, &advertisedStart, &race.Status); err != nil {
 			if err == sql.ErrNoRows {
 				return nil, nil
 			}
