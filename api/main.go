@@ -46,7 +46,7 @@ func run() error {
 	}
 
 	// Sports
-	if err := sports.RegisterSportsHandlerFromEndpoint(
+	if err := sports.RegisterSportHandlerFromEndpoint(
 		ctx,
 		mux,
 		*grpcSportsEndpoint,

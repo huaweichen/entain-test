@@ -6,7 +6,7 @@ option go_package = "/sports";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
-service Sports {
+service Sport {
   // ListEvents returns a list of all sports events.
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse) {
     option (google.api.http) = { get: "/v1/list-events" };
@@ -22,13 +22,13 @@ message ListEventsRequest {
 
 // Response to ListEvents call.
 message ListEventsResponse {
-  repeated Sport sports = 1;
+  repeated SportEvent sports = 1;
 }
 
 /* Resources */
 
 // A sport resource.
-message Sport {
+message SportEvent {
   // ID represents a unique identifier for the sport.
   int64 id = 1;
   // Name is the official name given to the sport.

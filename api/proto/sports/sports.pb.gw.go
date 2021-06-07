@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_Sports_ListEvents_0(ctx context.Context, marshaler runtime.Marshaler, client SportsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Sport_ListEvents_0(ctx context.Context, marshaler runtime.Marshaler, client SportClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListEventsRequest
 	var metadata runtime.ServerMetadata
 
@@ -40,7 +40,7 @@ func request_Sports_ListEvents_0(ctx context.Context, marshaler runtime.Marshale
 
 }
 
-func local_request_Sports_ListEvents_0(ctx context.Context, marshaler runtime.Marshaler, server SportsServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Sport_ListEvents_0(ctx context.Context, marshaler runtime.Marshaler, server SportServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListEventsRequest
 	var metadata runtime.ServerMetadata
 
@@ -49,24 +49,24 @@ func local_request_Sports_ListEvents_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-// RegisterSportsHandlerServer registers the http handlers for service Sports to "mux".
-// UnaryRPC     :call SportsServer directly.
+// RegisterSportHandlerServer registers the http handlers for service Sport to "mux".
+// UnaryRPC     :call SportServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterSportsHandlerFromEndpoint instead.
-func RegisterSportsHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SportsServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterSportHandlerFromEndpoint instead.
+func RegisterSportHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SportServer) error {
 
-	mux.Handle("GET", pattern_Sports_ListEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Sport_ListEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/sports.Sports/ListEvents")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/sports.Sport/ListEvents")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Sports_ListEvents_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Sport_ListEvents_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -74,16 +74,16 @@ func RegisterSportsHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 			return
 		}
 
-		forward_Sports_ListEvents_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Sport_ListEvents_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterSportsHandlerFromEndpoint is same as RegisterSportsHandler but
+// RegisterSportHandlerFromEndpoint is same as RegisterSportHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterSportsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterSportHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -103,39 +103,39 @@ func RegisterSportsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMu
 		}()
 	}()
 
-	return RegisterSportsHandler(ctx, mux, conn)
+	return RegisterSportHandler(ctx, mux, conn)
 }
 
-// RegisterSportsHandler registers the http handlers for service Sports to "mux".
+// RegisterSportHandler registers the http handlers for service Sport to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterSportsHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterSportsHandlerClient(ctx, mux, NewSportsClient(conn))
+func RegisterSportHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterSportHandlerClient(ctx, mux, NewSportClient(conn))
 }
 
-// RegisterSportsHandlerClient registers the http handlers for service Sports
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "SportsClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "SportsClient"
+// RegisterSportHandlerClient registers the http handlers for service Sport
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "SportClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "SportClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "SportsClient" to call the correct interceptors.
-func RegisterSportsHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SportsClient) error {
+// "SportClient" to call the correct interceptors.
+func RegisterSportHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SportClient) error {
 
-	mux.Handle("GET", pattern_Sports_ListEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Sport_ListEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/sports.Sports/ListEvents")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/sports.Sport/ListEvents")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Sports_ListEvents_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Sport_ListEvents_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Sports_ListEvents_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Sport_ListEvents_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -143,9 +143,9 @@ func RegisterSportsHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_Sports_ListEvents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list-events"}, ""))
+	pattern_Sport_ListEvents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list-events"}, ""))
 )
 
 var (
-	forward_Sports_ListEvents_0 = runtime.ForwardResponseMessage
+	forward_Sport_ListEvents_0 = runtime.ForwardResponseMessage
 )
