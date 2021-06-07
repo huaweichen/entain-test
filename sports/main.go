@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	grpcEndpoint = flag.String("grpc-endpoint", "localhost:9001", "gRPC server endpoint")
+	grpcEndpoint = flag.String("grpc-sports-endpoint", "localhost:9001", "gRPC server endpoint")
 )
 
 func main() {

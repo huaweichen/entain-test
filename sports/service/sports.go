@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-type Sport interface {
+type Sports interface {
 	// ListEvents will return a collection of sports events.
 	ListEvents(ctx context.Context, in *sports.ListEventsRequest) (*sports.ListEventsResponse, error)
 }
@@ -17,7 +17,7 @@ type sportService struct {
 }
 
 // NewSportsService instantiates and returns a new sportsService.
-func NewSportsService(sportRepo db.SportsRepo) Sport {
+func NewSportsService(sportRepo db.SportsRepo) Sports {
 	return &sportService{sportRepo}
 }
 

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -20,6 +21,7 @@ var (
 
 func main() {
 	flag.Parse()
+	fmt.Println("api.main")
 
 	if err := run(); err != nil {
 		log.Fatalf("failed running api server: %s", err)
